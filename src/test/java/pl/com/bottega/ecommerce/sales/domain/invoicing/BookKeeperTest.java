@@ -56,6 +56,27 @@ public class BookKeeperTest {
     }
 
     @Test
+    public void issuanceShouldAssignCorrectGros() {
+        InvoiceFactory invoiceFactory = new InvoiceFactory();
+        BookKeeper bookKeeper = new BookKeeper(invoiceFactory);
+
+        ClientData clientData = mock(ClientData.class);
+        InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
+
+        ProductData productData = mock(ProductData.class);
+        Money money = new Money(100);
+        RequestItem requestItem = new RequestItem(productData, 1, money);
+        invoiceRequest.add(requestItem);
+
+        TaxPolicy taxPolicy = mock(TaxPolicy.class);
+        Tax tax = new Tax(new Money(50), "");
+        when(taxPolicy.calculateTax(any(), any())).thenReturn(tax);
+
+        Invoice invoice = bookKeeper.issuance(invoiceRequest, taxPolicy);
+        assertThat(invoice.getGros(), is(money.add(tax.getAmount())));
+    }
+
+    @Test
     public void issuanceShouldCalculateTaxForEveryItemInRequest() {
         InvoiceFactory invoiceFactory = new InvoiceFactory();
         BookKeeper bookKeeper = new BookKeeper(invoiceFactory);
