@@ -100,6 +100,27 @@ public class BookKeeperTest {
     }
 
     @Test
+    public void issuanceShouldCalculateTaxBasedOnProductData() {
+        InvoiceFactory invoiceFactory = new InvoiceFactory();
+        BookKeeper bookKeeper = new BookKeeper(invoiceFactory);
+
+        ClientData clientData = mock(ClientData.class);
+        InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
+
+        ProductData productData = mock(ProductData.class);
+        Money money = new Money(0);
+        RequestItem requestItem = new RequestItem(productData, 1, money);
+        invoiceRequest.add(requestItem);
+
+        TaxPolicy taxPolicy = mock(TaxPolicy.class);
+        Tax tax = new Tax(new Money(0), "");
+        when(taxPolicy.calculateTax(any(), any())).thenReturn(tax);
+
+        bookKeeper.issuance(invoiceRequest, taxPolicy);
+        verify(taxPolicy).calculateTax(requestItem.getProductData().getType(), requestItem.getTotalCost());
+    }
+
+    @Test
     public void issuanceShouldCreateOneInvoice() {
         InvoiceFactory invoiceFactory = Mockito.spy(new InvoiceFactory());
         BookKeeper bookKeeper = new BookKeeper(invoiceFactory);
