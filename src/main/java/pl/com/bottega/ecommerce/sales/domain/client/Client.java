@@ -6,11 +6,12 @@ import pl.com.bottega.ecommerce.sales.domain.payment.Payment;
 import pl.com.bottega.ecommerce.sales.domain.payment.PaymentFactory;
 import pl.com.bottega.ecommerce.sharedkernel.Money;
 
-public class Client extends BaseAggregateRoot{
-private String name;
-	
-	
+public class Client extends BaseAggregateRoot {
+	private String name;
+
 	private PaymentFactory paymentFactory;
+
+	public Client() {}
 	
 	public ClientData generateSnapshot(){
 		return new ClientData(id, name);
@@ -29,7 +30,7 @@ private String name;
 	 * @return
 	 */
 	public Payment charge(Money amount) {
-		if (! canAfford(amount)){			
+		if (!canAfford(amount)){
 			domainError("Can not afford: " + amount);
 		}
 		
