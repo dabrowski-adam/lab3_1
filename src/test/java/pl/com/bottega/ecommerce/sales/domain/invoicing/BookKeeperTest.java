@@ -3,8 +3,12 @@ package pl.com.bottega.ecommerce.sales.domain.invoicing;
 import org.junit.Test;
 import org.mockito.Mockito;
 import pl.com.bottega.ecommerce.canonicalmodel.publishedlanguage.ClientData;
+import pl.com.bottega.ecommerce.canonicalmodel.publishedlanguage.Id;
 import pl.com.bottega.ecommerce.sales.domain.productscatalog.ProductData;
+import pl.com.bottega.ecommerce.sales.domain.productscatalog.ProductType;
 import pl.com.bottega.ecommerce.sharedkernel.Money;
+
+import java.util.Date;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
@@ -19,10 +23,10 @@ public class BookKeeperTest {
         InvoiceFactory invoiceFactory = new InvoiceFactory();
         BookKeeper bookKeeper = new BookKeeper(invoiceFactory);
 
-        ClientData clientData = mock(ClientData.class);
+        ClientData clientData = new ClientData(Id.generate(), "");
         InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
 
-        ProductData productData = mock(ProductData.class);
+        ProductData productData = new ProductData(Id.generate(), new Money(0), "", ProductType.STANDARD, new Date());
         Money money = new Money(0);
         RequestItem requestItem = new RequestItem(productData, 1, money);
         invoiceRequest.add(requestItem);
@@ -40,10 +44,10 @@ public class BookKeeperTest {
         InvoiceFactory invoiceFactory = new InvoiceFactory();
         BookKeeper bookKeeper = new BookKeeper(invoiceFactory);
 
-        ClientData clientData = mock(ClientData.class);
+        ClientData clientData = new ClientData(Id.generate(), "");
         InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
 
-        ProductData productData = mock(ProductData.class);
+        ProductData productData = new ProductData(Id.generate(), new Money(0), "", ProductType.STANDARD, new Date());
         Money money = new Money(100);
         RequestItem requestItem = new RequestItem(productData, 1, money);
         invoiceRequest.add(requestItem);
@@ -61,10 +65,10 @@ public class BookKeeperTest {
         InvoiceFactory invoiceFactory = new InvoiceFactory();
         BookKeeper bookKeeper = new BookKeeper(invoiceFactory);
 
-        ClientData clientData = mock(ClientData.class);
+        ClientData clientData = new ClientData(Id.generate(), "");
         InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
 
-        ProductData productData = mock(ProductData.class);
+        ProductData productData = new ProductData(Id.generate(), new Money(0), "", ProductType.STANDARD, new Date());
         Money money = new Money(100);
         RequestItem requestItem = new RequestItem(productData, 1, money);
         invoiceRequest.add(requestItem);
@@ -82,10 +86,10 @@ public class BookKeeperTest {
         InvoiceFactory invoiceFactory = new InvoiceFactory();
         BookKeeper bookKeeper = new BookKeeper(invoiceFactory);
 
-        ClientData clientData = mock(ClientData.class);
+        ClientData clientData = new ClientData(Id.generate(), "");
         InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
 
-        ProductData productData = mock(ProductData.class);
+        ProductData productData = new ProductData(Id.generate(), new Money(0), "", ProductType.STANDARD, new Date());
         Money money = new Money(0);
         RequestItem requestItem = new RequestItem(productData, 1, money);
         invoiceRequest.add(requestItem);
@@ -104,10 +108,10 @@ public class BookKeeperTest {
         InvoiceFactory invoiceFactory = new InvoiceFactory();
         BookKeeper bookKeeper = new BookKeeper(invoiceFactory);
 
-        ClientData clientData = mock(ClientData.class);
+        ClientData clientData = new ClientData(Id.generate(), "");
         InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
 
-        ProductData productData = mock(ProductData.class);
+        ProductData productData = new ProductData(Id.generate(), new Money(0), "", ProductType.STANDARD, new Date());
         Money money = new Money(0);
         RequestItem requestItem = new RequestItem(productData, 1, money);
         invoiceRequest.add(requestItem);
@@ -125,10 +129,10 @@ public class BookKeeperTest {
         InvoiceFactory invoiceFactory = Mockito.spy(new InvoiceFactory());
         BookKeeper bookKeeper = new BookKeeper(invoiceFactory);
 
-        ClientData clientData = mock(ClientData.class);
+        ClientData clientData = new ClientData(Id.generate(), "");
         InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
 
-        ProductData productData = mock(ProductData.class);
+        ProductData productData = new ProductData(Id.generate(), new Money(0), "", ProductType.STANDARD, new Date());
         Money money = new Money(0);
         RequestItem requestItem = new RequestItem(productData, 1, money);
         invoiceRequest.add(requestItem);
