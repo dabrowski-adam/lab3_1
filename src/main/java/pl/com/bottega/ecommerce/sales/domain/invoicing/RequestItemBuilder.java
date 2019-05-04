@@ -6,16 +6,9 @@ import pl.com.bottega.ecommerce.sharedkernel.Money;
 
 public class RequestItemBuilder {
 
-    private ProductData productData;
-    private int quantity;
-    private Money totalCost;
-
-    public RequestItemBuilder() {
-        ProductDataBuilder productDataBuilder = new ProductDataBuilder();
-        productData = productDataBuilder.createProductData();
-        quantity = 1;
-        totalCost = new Money(0);
-    }
+    private ProductData productData = new ProductDataBuilder().createProductData();
+    private int quantity = 1;
+    private Money totalCost = new Money(0);
 
     public RequestItemBuilder setProductData(ProductData productData) {
         this.productData = productData;
