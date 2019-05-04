@@ -16,8 +16,7 @@ public class BookKeeperTest {
 
     @Test
     public void issuanceShouldReturnInvoiceWithOnePosition() {
-        InvoiceFactory invoiceFactory = new InvoiceFactory();
-        BookKeeper bookKeeper = new BookKeeper(invoiceFactory);
+        BookKeeper bookKeeper = new BookKeeperBuilder().createBookKeeper();
 
         ClientData clientData = new ClientDataBuilder().createClientData();
         InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
@@ -34,8 +33,7 @@ public class BookKeeperTest {
 
     @Test
     public void issuanceShouldAssignCorrectNet() {
-        InvoiceFactory invoiceFactory = new InvoiceFactory();
-        BookKeeper bookKeeper = new BookKeeper(invoiceFactory);
+        BookKeeper bookKeeper = new BookKeeperBuilder().createBookKeeper();
 
         ClientData clientData = new ClientDataBuilder().createClientData();
         InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
@@ -55,8 +53,7 @@ public class BookKeeperTest {
 
     @Test
     public void issuanceShouldAssignCorrectGros() {
-        InvoiceFactory invoiceFactory = new InvoiceFactory();
-        BookKeeper bookKeeper = new BookKeeper(invoiceFactory);
+        BookKeeper bookKeeper = new BookKeeperBuilder().createBookKeeper();
 
         ClientData clientData = new ClientDataBuilder().createClientData();
         InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
@@ -76,8 +73,7 @@ public class BookKeeperTest {
 
     @Test
     public void issuanceShouldCalculateTaxForEveryItemInRequest() {
-        InvoiceFactory invoiceFactory = new InvoiceFactory();
-        BookKeeper bookKeeper = new BookKeeper(invoiceFactory);
+        BookKeeper bookKeeper = new BookKeeperBuilder().createBookKeeper();
 
         ClientData clientData = new ClientDataBuilder().createClientData();
         InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
@@ -95,8 +91,7 @@ public class BookKeeperTest {
 
     @Test
     public void issuanceShouldCalculateTaxBasedOnProductData() {
-        InvoiceFactory invoiceFactory = new InvoiceFactory();
-        BookKeeper bookKeeper = new BookKeeper(invoiceFactory);
+        BookKeeper bookKeeper = new BookKeeperBuilder().createBookKeeper();
 
         ClientData clientData = new ClientDataBuilder().createClientData();
         InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
@@ -114,7 +109,7 @@ public class BookKeeperTest {
     @Test
     public void issuanceShouldCreateOneInvoice() {
         InvoiceFactory invoiceFactory = Mockito.spy(new InvoiceFactory());
-        BookKeeper bookKeeper = new BookKeeper(invoiceFactory);
+        BookKeeper bookKeeper = new BookKeeperBuilder().setInvoiceFactory(invoiceFactory).createBookKeeper();
 
         ClientData clientData = new ClientDataBuilder().createClientData();
         InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
