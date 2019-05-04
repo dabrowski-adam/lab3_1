@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import pl.com.bottega.ecommerce.canonicalmodel.publishedlanguage.Id;
 import pl.com.bottega.ecommerce.sales.application.api.command.AddProductCommand;
+import pl.com.bottega.ecommerce.sales.application.api.command.AddProductCommandBuilder;
 import pl.com.bottega.ecommerce.sales.domain.client.Client;
 import pl.com.bottega.ecommerce.sales.domain.client.ClientRepository;
 import pl.com.bottega.ecommerce.sales.domain.equivalent.SuggestionService;
@@ -57,7 +58,7 @@ public class AddProductCommandHandlerTest {
 
     @Test
     public void handleShouldLoadReservationForOrder() {
-        AddProductCommand command = new AddProductCommand(Id.generate(), Id.generate(), 1);
+        AddProductCommand command = new AddProductCommandBuilder().createAddProductCommand();
         addProductCommandHandler.handle(command);
 
         verify(reservationRepository).load(command.getOrderId());
@@ -65,7 +66,7 @@ public class AddProductCommandHandlerTest {
 
     @Test
     public void handleShouldLoadProductRepositoryForOrder() {
-        AddProductCommand command = new AddProductCommand(Id.generate(), Id.generate(), 1);
+        AddProductCommand command = new AddProductCommandBuilder().createAddProductCommand();
         addProductCommandHandler.handle(command);
 
         verify(productRepository).load(command.getProductId());
@@ -73,7 +74,7 @@ public class AddProductCommandHandlerTest {
 
     @Test
     public void handleShouldNotLoadSuggestionWhenProductAvailable() {
-        AddProductCommand command = new AddProductCommand(Id.generate(), Id.generate(), 1);
+        AddProductCommand command = new AddProductCommandBuilder().createAddProductCommand();
         addProductCommandHandler.handle(command);
 
         verify(suggestionService, never()).suggestEquivalent(any(), any());
@@ -81,7 +82,7 @@ public class AddProductCommandHandlerTest {
 
     @Test
     public void handleShouldSaveReservation() {
-        AddProductCommand command = new AddProductCommand(Id.generate(), Id.generate(), 1);
+        AddProductCommand command = new AddProductCommandBuilder().createAddProductCommand();
         addProductCommandHandler.handle(command);
 
         verify(reservationRepository).save(any());
@@ -89,7 +90,7 @@ public class AddProductCommandHandlerTest {
 
     @Test
     public void handleShouldAddProductToReservationWhenAvailable() {
-        AddProductCommand command = new AddProductCommand(Id.generate(), Id.generate(), 1);
+        AddProductCommand command = new AddProductCommandBuilder().createAddProductCommand();
         addProductCommandHandler.handle(command);
 
         assertThat(reservation.contains(product), is(true));
@@ -99,7 +100,7 @@ public class AddProductCommandHandlerTest {
     public void handleShouldNotAddProductToReservationWhenUnavailable() {
         when(productRepository.load(any(Id.class))).thenReturn(product);
 
-        AddProductCommand command = new AddProductCommand(Id.generate(), Id.generate(), 1);
+        AddProductCommand command = new AddProductCommandBuilder().createAddProductCommand();
         addProductCommandHandler.handle(command);
 
         assertThat(reservation.contains(suggestedProduct), is(false));

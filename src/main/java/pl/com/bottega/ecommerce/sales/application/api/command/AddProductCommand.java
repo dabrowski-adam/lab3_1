@@ -9,8 +9,7 @@ public class AddProductCommand {
 	private Id productId;
 	private int quantity;
 	
-	public AddProductCommand(Id orderId, Id productId,
-			int quantity) {
+	public AddProductCommand(Id orderId, Id productId, int quantity) {
 		this.orderId = orderId;
 		this.productId = productId;
 		this.quantity = quantity;
