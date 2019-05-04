@@ -3,7 +3,7 @@ package pl.com.bottega.ecommerce.sales.domain.invoicing;
 import org.junit.Test;
 import org.mockito.Mockito;
 import pl.com.bottega.ecommerce.canonicalmodel.publishedlanguage.ClientData;
-import pl.com.bottega.ecommerce.canonicalmodel.publishedlanguage.Id;
+import pl.com.bottega.ecommerce.canonicalmodel.publishedlanguage.ClientDataBuilder;
 import pl.com.bottega.ecommerce.sharedkernel.Money;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -19,7 +19,7 @@ public class BookKeeperTest {
         InvoiceFactory invoiceFactory = new InvoiceFactory();
         BookKeeper bookKeeper = new BookKeeper(invoiceFactory);
 
-        ClientData clientData = new ClientData(Id.generate(), "");
+        ClientData clientData = new ClientDataBuilder().createClientData();
         InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
         RequestItem requestItem = new RequestItemBuilder().createRequestItem();
         invoiceRequest.add(requestItem);
@@ -37,7 +37,7 @@ public class BookKeeperTest {
         InvoiceFactory invoiceFactory = new InvoiceFactory();
         BookKeeper bookKeeper = new BookKeeper(invoiceFactory);
 
-        ClientData clientData = new ClientData(Id.generate(), "");
+        ClientData clientData = new ClientDataBuilder().createClientData();
         InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
 
         Money money = new Money(100);
@@ -58,7 +58,7 @@ public class BookKeeperTest {
         InvoiceFactory invoiceFactory = new InvoiceFactory();
         BookKeeper bookKeeper = new BookKeeper(invoiceFactory);
 
-        ClientData clientData = new ClientData(Id.generate(), "");
+        ClientData clientData = new ClientDataBuilder().createClientData();
         InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
 
         Money money = new Money(100);
@@ -79,7 +79,7 @@ public class BookKeeperTest {
         InvoiceFactory invoiceFactory = new InvoiceFactory();
         BookKeeper bookKeeper = new BookKeeper(invoiceFactory);
 
-        ClientData clientData = new ClientData(Id.generate(), "");
+        ClientData clientData = new ClientDataBuilder().createClientData();
         InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
         RequestItem requestItem = new RequestItemBuilder().createRequestItem();
         invoiceRequest.add(requestItem);
@@ -98,7 +98,7 @@ public class BookKeeperTest {
         InvoiceFactory invoiceFactory = new InvoiceFactory();
         BookKeeper bookKeeper = new BookKeeper(invoiceFactory);
 
-        ClientData clientData = new ClientData(Id.generate(), "");
+        ClientData clientData = new ClientDataBuilder().createClientData();
         InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
         RequestItem requestItem = new RequestItemBuilder().createRequestItem();
         invoiceRequest.add(requestItem);
@@ -116,7 +116,7 @@ public class BookKeeperTest {
         InvoiceFactory invoiceFactory = Mockito.spy(new InvoiceFactory());
         BookKeeper bookKeeper = new BookKeeper(invoiceFactory);
 
-        ClientData clientData = new ClientData(Id.generate(), "");
+        ClientData clientData = new ClientDataBuilder().createClientData();
         InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
         RequestItem requestItem = new RequestItemBuilder().createRequestItem();
         invoiceRequest.add(requestItem);

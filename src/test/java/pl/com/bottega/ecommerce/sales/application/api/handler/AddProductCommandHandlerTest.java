@@ -3,6 +3,7 @@ package pl.com.bottega.ecommerce.sales.application.api.handler;
 import org.junit.Before;
 import org.junit.Test;
 import pl.com.bottega.ecommerce.canonicalmodel.publishedlanguage.ClientData;
+import pl.com.bottega.ecommerce.canonicalmodel.publishedlanguage.ClientDataBuilder;
 import pl.com.bottega.ecommerce.canonicalmodel.publishedlanguage.Id;
 import pl.com.bottega.ecommerce.sales.application.api.command.AddProductCommand;
 import pl.com.bottega.ecommerce.sales.domain.client.Client;
@@ -38,7 +39,7 @@ public class AddProductCommandHandlerTest {
     @Before
     public void setup() {
         reservationRepository = mock(ReservationRepository.class);
-        ClientData clientData = new ClientData(Id.generate(), "");
+        ClientData clientData = new ClientDataBuilder().createClientData();
         reservation = new Reservation(Id.generate(), Reservation.ReservationStatus.OPENED, clientData, new Date());
         when(reservationRepository.load(any())).thenReturn(reservation);
 
