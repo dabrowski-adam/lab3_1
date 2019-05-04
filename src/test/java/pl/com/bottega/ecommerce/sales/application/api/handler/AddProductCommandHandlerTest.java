@@ -10,13 +10,9 @@ import pl.com.bottega.ecommerce.sales.domain.equivalent.SuggestionService;
 import pl.com.bottega.ecommerce.sales.domain.productscatalog.Product;
 import pl.com.bottega.ecommerce.sales.domain.productscatalog.ProductBuilder;
 import pl.com.bottega.ecommerce.sales.domain.productscatalog.ProductRepository;
-import pl.com.bottega.ecommerce.sales.domain.productscatalog.ProductType;
 import pl.com.bottega.ecommerce.sales.domain.reservation.Reservation;
 import pl.com.bottega.ecommerce.sales.domain.reservation.ReservationBuilder;
 import pl.com.bottega.ecommerce.sales.domain.reservation.ReservationRepository;
-import pl.com.bottega.ecommerce.sharedkernel.Money;
-import pl.com.bottega.ecommerce.system.application.SystemContext;
-import pl.com.bottega.ecommerce.system.application.SystemUser;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -31,8 +27,7 @@ public class AddProductCommandHandlerTest {
     private Product suggestedProduct;
     private SuggestionService suggestionService;
     private ClientRepository clientRepository;
-    private SystemContext systemContext;
-
+    private AddProductCommandHandler addProductCommandHandler;
 
     @Before
     public void setup() {
@@ -52,16 +47,16 @@ public class AddProductCommandHandlerTest {
         Client client = new Client();
         when(clientRepository.load(any())).thenReturn(client);
 
-        systemContext = mock(SystemContext.class);
-        SystemUser systemUser = new SystemUser(Id.generate());
-        when(systemContext.getSystemUser()).thenReturn(systemUser);
+        addProductCommandHandler = new AddProductCommandHandlerBuilder()
+                .setReservationRepository(reservationRepository)
+                .setProductRepository(productRepository)
+                .setSuggestionService(suggestionService)
+                .setClientRepository(clientRepository)
+                .createAddProductCommandHandler();
     }
 
     @Test
     public void handleShouldLoadReservationForOrder() {
-        AddProductCommandHandler addProductCommandHandler = new AddProductCommandHandler(reservationRepository,
-                productRepository, suggestionService, clientRepository, systemContext);
-
         AddProductCommand command = new AddProductCommand(Id.generate(), Id.generate(), 1);
         addProductCommandHandler.handle(command);
 
@@ -70,9 +65,6 @@ public class AddProductCommandHandlerTest {
 
     @Test
     public void handleShouldLoadProductRepositoryForOrder() {
-        AddProductCommandHandler addProductCommandHandler = new AddProductCommandHandler(reservationRepository,
-                productRepository, suggestionService, clientRepository, systemContext);
-
         AddProductCommand command = new AddProductCommand(Id.generate(), Id.generate(), 1);
         addProductCommandHandler.handle(command);
 
@@ -81,9 +73,6 @@ public class AddProductCommandHandlerTest {
 
     @Test
     public void handleShouldNotLoadSuggestionWhenProductAvailable() {
-        AddProductCommandHandler addProductCommandHandler = new AddProductCommandHandler(reservationRepository,
-                productRepository, suggestionService, clientRepository, systemContext);
-
         AddProductCommand command = new AddProductCommand(Id.generate(), Id.generate(), 1);
         addProductCommandHandler.handle(command);
 
@@ -92,9 +81,6 @@ public class AddProductCommandHandlerTest {
 
     @Test
     public void handleShouldSaveReservation() {
-        AddProductCommandHandler addProductCommandHandler = new AddProductCommandHandler(reservationRepository,
-                productRepository, suggestionService, clientRepository, systemContext);
-
         AddProductCommand command = new AddProductCommand(Id.generate(), Id.generate(), 1);
         addProductCommandHandler.handle(command);
 
@@ -103,9 +89,6 @@ public class AddProductCommandHandlerTest {
 
     @Test
     public void handleShouldAddProductToReservationWhenAvailable() {
-        AddProductCommandHandler addProductCommandHandler = new AddProductCommandHandler(reservationRepository,
-                productRepository, suggestionService, clientRepository, systemContext);
-
         AddProductCommand command = new AddProductCommand(Id.generate(), Id.generate(), 1);
         addProductCommandHandler.handle(command);
 
@@ -114,9 +97,6 @@ public class AddProductCommandHandlerTest {
 
     @Test
     public void handleShouldNotAddProductToReservationWhenUnavailable() {
-        AddProductCommandHandler addProductCommandHandler = new AddProductCommandHandler(reservationRepository,
-                productRepository, suggestionService, clientRepository, systemContext);
-
         when(productRepository.load(any(Id.class))).thenReturn(product);
 
         AddProductCommand command = new AddProductCommand(Id.generate(), Id.generate(), 1);
