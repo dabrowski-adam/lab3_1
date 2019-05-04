@@ -28,9 +28,9 @@ public class AddProductCommandHandlerTest {
 
     private Reservation reservation;
     private ReservationRepository reservationRepository;
-    Product product;
+    private Product product;
     private ProductRepository productRepository;
-    Product suggestedProduct;
+    private Product suggestedProduct;
     private SuggestionService suggestionService;
     private ClientRepository clientRepository;
     private SystemContext systemContext;
