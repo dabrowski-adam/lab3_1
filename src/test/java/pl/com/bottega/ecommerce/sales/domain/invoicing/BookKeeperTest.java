@@ -4,8 +4,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import pl.com.bottega.ecommerce.canonicalmodel.publishedlanguage.ClientData;
 import pl.com.bottega.ecommerce.canonicalmodel.publishedlanguage.Id;
-import pl.com.bottega.ecommerce.sales.domain.productscatalog.ProductData;
-import pl.com.bottega.ecommerce.sales.domain.productscatalog.ProductDataBuilder;
 import pl.com.bottega.ecommerce.sharedkernel.Money;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -23,10 +21,7 @@ public class BookKeeperTest {
 
         ClientData clientData = new ClientData(Id.generate(), "");
         InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
-
-        ProductData productData = new ProductDataBuilder().createProductData();
-        Money money = new Money(0);
-        RequestItem requestItem = new RequestItem(productData, 1, money);
+        RequestItem requestItem = new RequestItemBuilder().createRequestItem();
         invoiceRequest.add(requestItem);
 
         TaxPolicy taxPolicy = mock(TaxPolicy.class);
@@ -45,9 +40,9 @@ public class BookKeeperTest {
         ClientData clientData = new ClientData(Id.generate(), "");
         InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
 
-        ProductData productData = new ProductDataBuilder().createProductData();
         Money money = new Money(100);
-        RequestItem requestItem = new RequestItem(productData, 1, money);
+        RequestItem requestItem = new RequestItemBuilder().setTotalCost(money)
+                                                          .createRequestItem();
         invoiceRequest.add(requestItem);
 
         TaxPolicy taxPolicy = mock(TaxPolicy.class);
@@ -66,9 +61,9 @@ public class BookKeeperTest {
         ClientData clientData = new ClientData(Id.generate(), "");
         InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
 
-        ProductData productData = new ProductDataBuilder().createProductData();
         Money money = new Money(100);
-        RequestItem requestItem = new RequestItem(productData, 1, money);
+        RequestItem requestItem = new RequestItemBuilder().setTotalCost(money)
+                                                          .createRequestItem();
         invoiceRequest.add(requestItem);
 
         TaxPolicy taxPolicy = mock(TaxPolicy.class);
@@ -86,10 +81,7 @@ public class BookKeeperTest {
 
         ClientData clientData = new ClientData(Id.generate(), "");
         InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
-
-        ProductData productData = new ProductDataBuilder().createProductData();
-        Money money = new Money(0);
-        RequestItem requestItem = new RequestItem(productData, 1, money);
+        RequestItem requestItem = new RequestItemBuilder().createRequestItem();
         invoiceRequest.add(requestItem);
         invoiceRequest.add(requestItem);
 
@@ -108,10 +100,7 @@ public class BookKeeperTest {
 
         ClientData clientData = new ClientData(Id.generate(), "");
         InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
-
-        ProductData productData = new ProductDataBuilder().createProductData();
-        Money money = new Money(0);
-        RequestItem requestItem = new RequestItem(productData, 1, money);
+        RequestItem requestItem = new RequestItemBuilder().createRequestItem();
         invoiceRequest.add(requestItem);
 
         TaxPolicy taxPolicy = mock(TaxPolicy.class);
@@ -129,10 +118,7 @@ public class BookKeeperTest {
 
         ClientData clientData = new ClientData(Id.generate(), "");
         InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
-
-        ProductData productData = new ProductDataBuilder().createProductData();
-        Money money = new Money(0);
-        RequestItem requestItem = new RequestItem(productData, 1, money);
+        RequestItem requestItem = new RequestItemBuilder().createRequestItem();
         invoiceRequest.add(requestItem);
         invoiceRequest.add(requestItem);
 
