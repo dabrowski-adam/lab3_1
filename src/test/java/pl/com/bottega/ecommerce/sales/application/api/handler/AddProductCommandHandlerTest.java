@@ -2,14 +2,13 @@ package pl.com.bottega.ecommerce.sales.application.api.handler;
 
 import org.junit.Before;
 import org.junit.Test;
-import pl.com.bottega.ecommerce.canonicalmodel.publishedlanguage.ClientData;
-import pl.com.bottega.ecommerce.canonicalmodel.publishedlanguage.ClientDataBuilder;
 import pl.com.bottega.ecommerce.canonicalmodel.publishedlanguage.Id;
 import pl.com.bottega.ecommerce.sales.application.api.command.AddProductCommand;
 import pl.com.bottega.ecommerce.sales.domain.client.Client;
 import pl.com.bottega.ecommerce.sales.domain.client.ClientRepository;
 import pl.com.bottega.ecommerce.sales.domain.equivalent.SuggestionService;
 import pl.com.bottega.ecommerce.sales.domain.productscatalog.Product;
+import pl.com.bottega.ecommerce.sales.domain.productscatalog.ProductBuilder;
 import pl.com.bottega.ecommerce.sales.domain.productscatalog.ProductRepository;
 import pl.com.bottega.ecommerce.sales.domain.productscatalog.ProductType;
 import pl.com.bottega.ecommerce.sales.domain.reservation.Reservation;
@@ -18,8 +17,6 @@ import pl.com.bottega.ecommerce.sales.domain.reservation.ReservationRepository;
 import pl.com.bottega.ecommerce.sharedkernel.Money;
 import pl.com.bottega.ecommerce.system.application.SystemContext;
 import pl.com.bottega.ecommerce.system.application.SystemUser;
-
-import java.util.Date;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -44,11 +41,11 @@ public class AddProductCommandHandlerTest {
         when(reservationRepository.load(any())).thenReturn(reservation);
 
         productRepository = mock(ProductRepository.class);
-        product = new Product(Id.generate(), new Money(0), "", ProductType.STANDARD);
+        product = new ProductBuilder().createProduct();
         when(productRepository.load(any())).thenReturn(product);
 
         suggestionService = mock(SuggestionService.class);
-        suggestedProduct = new Product(Id.generate(), new Money(0), "", ProductType.STANDARD);
+        suggestedProduct = new ProductBuilder().createProduct();
         when(suggestionService.suggestEquivalent(any(), any())).thenReturn(suggestedProduct);
 
         clientRepository = mock(ClientRepository.class);
