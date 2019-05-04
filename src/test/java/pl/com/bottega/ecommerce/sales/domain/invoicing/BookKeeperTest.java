@@ -2,9 +2,10 @@ package pl.com.bottega.ecommerce.sales.domain.invoicing;
 
 import org.junit.Test;
 import org.mockito.Mockito;
-import pl.com.bottega.ecommerce.canonicalmodel.publishedlanguage.ClientData;
-import pl.com.bottega.ecommerce.canonicalmodel.publishedlanguage.ClientDataBuilder;
 import pl.com.bottega.ecommerce.sharedkernel.Money;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
@@ -17,11 +18,9 @@ public class BookKeeperTest {
     @Test
     public void issuanceShouldReturnInvoiceWithOnePosition() {
         BookKeeper bookKeeper = new BookKeeperBuilder().createBookKeeper();
-
-        ClientData clientData = new ClientDataBuilder().createClientData();
-        InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
         RequestItem requestItem = new RequestItemBuilder().createRequestItem();
-        invoiceRequest.add(requestItem);
+        InvoiceRequest invoiceRequest = new InvoiceRequestBuilder().setItems(Collections.singletonList(requestItem))
+                                                                   .createInvoiceRequest();
 
         TaxPolicy taxPolicy = mock(TaxPolicy.class);
         Tax tax = new Tax(new Money(0), "");
@@ -35,13 +34,11 @@ public class BookKeeperTest {
     public void issuanceShouldAssignCorrectNet() {
         BookKeeper bookKeeper = new BookKeeperBuilder().createBookKeeper();
 
-        ClientData clientData = new ClientDataBuilder().createClientData();
-        InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
-
         Money money = new Money(100);
         RequestItem requestItem = new RequestItemBuilder().setTotalCost(money)
                                                           .createRequestItem();
-        invoiceRequest.add(requestItem);
+        InvoiceRequest invoiceRequest = new InvoiceRequestBuilder().setItems(Collections.singletonList(requestItem))
+                                                                   .createInvoiceRequest();
 
         TaxPolicy taxPolicy = mock(TaxPolicy.class);
         Tax tax = new Tax(new Money(0), "");
@@ -55,13 +52,11 @@ public class BookKeeperTest {
     public void issuanceShouldAssignCorrectGros() {
         BookKeeper bookKeeper = new BookKeeperBuilder().createBookKeeper();
 
-        ClientData clientData = new ClientDataBuilder().createClientData();
-        InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
-
         Money money = new Money(100);
         RequestItem requestItem = new RequestItemBuilder().setTotalCost(money)
                                                           .createRequestItem();
-        invoiceRequest.add(requestItem);
+        InvoiceRequest invoiceRequest = new InvoiceRequestBuilder().setItems(Collections.singletonList(requestItem))
+                                                                   .createInvoiceRequest();
 
         TaxPolicy taxPolicy = mock(TaxPolicy.class);
         Tax tax = new Tax(new Money(50), "");
@@ -74,12 +69,9 @@ public class BookKeeperTest {
     @Test
     public void issuanceShouldCalculateTaxForEveryItemInRequest() {
         BookKeeper bookKeeper = new BookKeeperBuilder().createBookKeeper();
-
-        ClientData clientData = new ClientDataBuilder().createClientData();
-        InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
         RequestItem requestItem = new RequestItemBuilder().createRequestItem();
-        invoiceRequest.add(requestItem);
-        invoiceRequest.add(requestItem);
+        InvoiceRequest invoiceRequest = new InvoiceRequestBuilder().setItems(Arrays.asList(requestItem, requestItem))
+                                                                   .createInvoiceRequest();
 
         TaxPolicy taxPolicy = mock(TaxPolicy.class);
         Tax tax = new Tax(new Money(0), "");
@@ -92,11 +84,9 @@ public class BookKeeperTest {
     @Test
     public void issuanceShouldCalculateTaxBasedOnProductData() {
         BookKeeper bookKeeper = new BookKeeperBuilder().createBookKeeper();
-
-        ClientData clientData = new ClientDataBuilder().createClientData();
-        InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
         RequestItem requestItem = new RequestItemBuilder().createRequestItem();
-        invoiceRequest.add(requestItem);
+        InvoiceRequest invoiceRequest = new InvoiceRequestBuilder().setItems(Collections.singletonList(requestItem))
+                                                                   .createInvoiceRequest();
 
         TaxPolicy taxPolicy = mock(TaxPolicy.class);
         Tax tax = new Tax(new Money(0), "");
@@ -110,12 +100,9 @@ public class BookKeeperTest {
     public void issuanceShouldCreateOneInvoice() {
         InvoiceFactory invoiceFactory = Mockito.spy(new InvoiceFactory());
         BookKeeper bookKeeper = new BookKeeperBuilder().setInvoiceFactory(invoiceFactory).createBookKeeper();
-
-        ClientData clientData = new ClientDataBuilder().createClientData();
-        InvoiceRequest invoiceRequest = new InvoiceRequest(clientData);
         RequestItem requestItem = new RequestItemBuilder().createRequestItem();
-        invoiceRequest.add(requestItem);
-        invoiceRequest.add(requestItem);
+        InvoiceRequest invoiceRequest = new InvoiceRequestBuilder().setItems(Arrays.asList(requestItem, requestItem))
+                                                                   .createInvoiceRequest();
 
         TaxPolicy taxPolicy = mock(TaxPolicy.class);
         Tax tax = new Tax(new Money(0), "");
